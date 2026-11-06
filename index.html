@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Attendance Log</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="app-header">
+      <div>
+        <h1>Daily Attendance Log</h1>
+        <p class="subtitle">Track who was present, absent or late each day.</p>
+      </div>
+      <p class="today" id="todayLabel"></p>
+    </header>
+
+    <!-- Stats -->
+    <section class="stats" aria-label="Attendance statistics">
+      <div class="stat-card">
+        <span class="stat-label">Total Records</span>
+        <span class="stat-value" id="statTotal">0</span>
+      </div>
+      <div class="stat-card stat-present">
+        <span class="stat-label">Present</span>
+        <span class="stat-value" id="statPresent">0</span>
+      </div>
+      <div class="stat-card stat-absent">
+        <span class="stat-label">Absent</span>
+        <span class="stat-value" id="statAbsent">0</span>
+      </div>
+      <div class="stat-card stat-late">
+        <span class="stat-label">Late</span>
+        <span class="stat-value" id="statLate">0</span>
+      </div>
+    </section>
+
+    <!-- Add form -->
+    <section class="card">
+      <h2 class="card-title">Add Attendance Record</h2>
+      <form id="addForm" class="record-form" novalidate>
+        <div class="field">
+          <label for="addName">Full Name</label>
+          <input type="text" id="addName" placeholder="e.g. Jane Doe" maxlength="80" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="addDate">Date</label>
+          <input type="date" id="addDate">
+        </div>
+        <div class="field">
+          <label for="addStatus">Status</label>
+          <select id="addStatus">
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="Late">Late</option>
+          </select>
+        </div>
+        <div class="field field-action">
+          <button type="submit" class="btn btn-primary">Add Record</button>
+        </div>
+      </form>
+      <p class="form-message" id="addMessage" role="alert"></p>
+    </section>
+
+    <!-- Records -->
+    <section class="card">
+      <div class="records-header">
+        <h2 class="card-title">Attendance Records</h2>
+        <span class="result-count" id="resultCount"></span>
+      </div>
+
+      <div class="toolbar">
+        <div class="field field-search">
+          <label for="searchInput">Search</label>
+          <input type="search" id="searchInput" placeholder="Search by name or date">
+        </div>
+        <div class="field">
+          <label for="filterDate">Filter by date</label>
+          <input type="date" id="filterDate">
+        </div>
+        <div class="field">
+          <label for="filterStatus">Filter by status</label>
+          <select id="filterStatus">
+            <option value="">All statuses</option>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="Late">Late</option>
+          </select>
+        </div>
+        <div class="field field-action">
+          <button type="button" class="btn btn-secondary" id="clearFilters">Clear filters</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="records-table" id="recordsTable">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="recordsBody"></tbody>
+        </table>
+      </div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <div class="empty-icon" aria-hidden="true">📋</div>
+        <h3 id="emptyTitle">No attendance records yet</h3>
+        <p id="emptyText">Add your first record using the form above to get started.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Edit dialog -->
+  <dialog id="editDialog" class="dialog">
+    <form id="editForm" novalidate>
+      <h2 class="dialog-title">Edit Attendance Record</h2>
+      <div class="field">
+        <label for="editName">Full Name</label>
+        <input type="text" id="editName" maxlength="80" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="editDate">Date</label>
+        <input type="date" id="editDate">
+      </div>
+      <div class="field">
+        <label for="editStatus">Status</label>
+        <select id="editStatus">
+          <option value="Present">Present</option>
+          <option value="Absent">Absent</option>
+          <option value="Late">Late</option>
+        </select>
+      </div>
+      <p class="form-message" id="editMessage" role="alert"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-secondary" id="editCancel">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Delete confirmation dialog -->
+  <dialog id="deleteDialog" class="dialog">
+    <h2 class="dialog-title">Delete Record?</h2>
+    <p class="dialog-text" id="deleteText"></p>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn-secondary" id="deleteCancel">Cancel</button>
+      <button type="button" class="btn btn-danger" id="deleteConfirm">Delete</button>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
